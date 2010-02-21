@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cassert>
 #include <iostream>
+#include <cstdarg>
 
 #ifndef DEBUG
 #define NDEBUG
@@ -10,24 +11,39 @@
 #define D(...) __VA_ARGS__
 #endif
 
-#define CBLACK   "\033[30m"
-#define CRED     "\033[31m"
-#define CGREEN   "\033[32m"
-#define CYELLOW  "\033[33m"
-#define CBLUE    "\033[34m"
-#define CMAGENTA "\033[35m"
-#define CCYAN    "\033[36m"
-#define CWHITE   "\033[37m"
+#ifndef NOCOLOR
+#define ATTR(x) "\033[" #x "m"
+#else
+#define ATTR(x) ""
+#endif
 
-#define CRESET   "\033[0m"
-#define CUND     "\033[4m"
-#define CBRT     "\033[1m"
+/* vt100 foreground colors */
+#define CBLACK   ATTR(30)
+#define CRED     ATTR(31)
+#define CGREEN   ATTR(32)
+#define CYELLOW  ATTR(33)
+#define CBLUE    ATTR(34)
+#define CMAGENTA ATTR(35)
+#define CCYAN    ATTR(36)
+#define CWHITE   ATTR(37)
 
+/* vt100 special attributes */
+#ifndef NOATTRIBS
+#define CUND     ATTR(4)
+#define CBRT     ATTR(1)
+#else
+#define CUND     ""
+#define CBRT     ""
+#endif
+#define CRESET   ATTR(0)
+
+/* user config */
 #define VAR_COLOR    CBLUE
 #define STAMP_COLOR  CMAGENTA
 #define TIME_COLOR   CCYAN
 #define ERROR_COLOR  CRED CBRT
 
+/* debug printing functions */
 #define P(x, ...)  fprintf(stderr, CRESET x CRESET, ##__VA_ARGS__)
 #define PN(x, ...) fprintf(stderr, CRESET x "\n" CRESET, ##__VA_ARGS__)
 #define PV(var) cerr << CRESET VAR_COLOR CUND << #var << CRESET " = " VAR_COLOR << (var) << CRESET "; "
@@ -43,6 +59,7 @@
 	PN(ERROR_COLOR      "**********        end of notice        **********"); \
 }
 
+/* auxiliary functions */
 struct tm* get_t()
 {
 	time_t sec;	
@@ -83,4 +100,4 @@ void print_timestamp()
 	std::cerr << CRESET TIME_COLOR "[" << d << " " << CBRT << t << CRESET TIME_COLOR "] " CRESET;
 	free(d);
 	free(t);
-}	
+}
