@@ -54,7 +54,7 @@
 #define TIME print_timestamp() 
 #define FUCK(...) { \
 	PN(ERROR_COLOR CUND "********** EXTREMELY IMPORTANT NOTICE! **********"); \
-    PN(ERROR_COLOR      "*        Something very bad has happened        *"); \
+	PN(ERROR_COLOR      "*        Something very bad has happened        *"); \
 	__VA_ARGS__; \
 	PN(ERROR_COLOR      "**********        end of notice        **********"); \
 }
@@ -73,9 +73,9 @@ char* get_time()
 	int ret;
 	struct tm* t = get_t();
 	ret = asprintf(&str,"%.2i:%.2i:%.2i",
-			t->tm_hour,
-			t->tm_min,
-			t->tm_sec
+		t->tm_hour,
+		t->tm_min,
+		t->tm_sec
 	); assert(ret != -1);
 	return str;
 }
@@ -86,9 +86,9 @@ char* get_date()
 	int ret;
 	struct tm* t = get_t();
 	ret = asprintf(&str,"%.4i/%.2i/%.2i",
-			t->tm_year+1900,
-			t->tm_mon+1,
-			t->tm_mday
+		t->tm_year+1900,
+		t->tm_mon+1,
+		t->tm_mday
 	); assert(ret != -1);
 	return str;
 }
