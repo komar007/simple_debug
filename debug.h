@@ -1,8 +1,17 @@
+#ifdef __cplusplus
 #include <cstdio>
 #include <cstdlib>
 #include <cassert>
 #include <iostream>
 #include <cstdarg>
+#include <ctime>
+#else
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <stdarg.h>
+#include <time.h>
+#endif
 
 #ifndef DEBUG
 #define NDEBUG
@@ -46,11 +55,16 @@
 /* debug printing functions */
 #define P(x, ...)  fprintf(stderr, CRESET x CRESET, ##__VA_ARGS__)
 #define PN(x, ...) fprintf(stderr, CRESET x "\n" CRESET, ##__VA_ARGS__)
+#ifdef __cplusplus
 #define PV(var) cerr << CRESET VAR_COLOR CUND << #var << CRESET " = " VAR_COLOR << (var) << CRESET "; "
-#define N cerr << endl
-#define STAMP cerr << CRESET STAMP_COLOR CUND << __FILE__ \
-                   << CRESET STAMP_COLOR ":" CBRT << __LINE__ << " " \
-                   << CRESET STAMP_COLOR << __PRETTY_FUNCTION__ << " : " CRESET
+#else
+#define PV(var) {}
+#endif
+#define N fprintf(stderr, "\n")
+#define STAMP fprintf(stderr, CRESET STAMP_COLOR CUND "%s" /* file */ \
+                              CRESET STAMP_COLOR ":" CBRT "%i " /* line */ \
+                              CRESET STAMP_COLOR "%s : " CRESET /* function */, \
+                              __FILE__, __LINE__, __PRETTY_FUNCTION__)
 #define TIME print_timestamp() 
 #define FUCK(...) { \
 	PN(ERROR_COLOR CUND "********** EXTREMELY IMPORTANT NOTICE! **********"); \
@@ -97,7 +111,7 @@ void print_timestamp()
 {
 	char *d = get_date();
 	char *t = get_time();
-	std::cerr << CRESET TIME_COLOR "[" << d << " " << CBRT << t << CRESET TIME_COLOR "] " CRESET;
+	fprintf(stderr, CRESET TIME_COLOR "[%s " CBRT "%s" CRESET TIME_COLOR "] " CRESET, d, t);
 	free(d);
 	free(t);
 }
