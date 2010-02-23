@@ -1,3 +1,6 @@
+#ifndef DEBUG_H
+#define DEBUG_H
+
 #ifdef __cplusplus
 #include <cstdio>
 #include <cstdlib>
@@ -115,3 +118,5 @@ void print_timestamp()
 	free(d);
 	free(t);
 }
+
+#endif
